@@ -13,7 +13,7 @@ const displayCategoryData = (item) => {
     item.forEach(category => {
         const newDiv = document.createElement('div')
         newDiv.classList.add('d-inline')
-        console.log(category)
+        // console.log(category)
         newDiv.innerHTML = `
         <h6 class="d-inline mx-2 cursor" onClick="singleData('${category.category_id}')">${category.category_name}</h6>
     `
@@ -29,7 +29,7 @@ const singleData = async id => {
     const data = await res.json()
         .catch(error => error.console.log("Error"))
     singleDataDisplay(data.data)
-    console.log(data.data)
+    // console.log(data.data)
 
 }
 
@@ -66,15 +66,40 @@ const singleDataDisplay = (data) => {
         <div class="col-6 d-flex align-items-center">
             <p>${item.total_view}M</p>
         </div>
-        <button class="btn btn-primary mt-3">Click Me</button>
+        <button id="modal" type="button" onClick="modal('${item._id}')" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#newsModal">
+                Click Me
+            </button>
         </div>
 
         </div>
 
         `
         cardContainer.appendChild(newDiv)
-
+        // console.log(item)
 
     })
 
+}
+
+
+const modal = async id =>{
+   const url = `https://openapi.programming-hero.com/api/news/${id}`
+   const res = await fetch(url)
+   const data = await res.json()
+   .catch(error => error.console.log("error")) 
+   displayModal(data.data[0])
+}
+
+const displayModal = (news) =>{
+    console.log(news)
+    const title = document.getElementById('newsModalLabel')
+    title.innerText = news.title
+    const body = document.getElementById('modal-body')
+    body.innerHTML = `
+    <h4>${news.author.name ? news.author.name : "No Data Found"}</h4>
+    <h5>Totall Views: ${news.total_view ? news.total_view : "No Data Found"}</h5>
+    <h5>Rating: ${news.rating.number}</h5>
+    <h5>Badge: ${news.rating.badge}</h5>
+    `
 }
