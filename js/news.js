@@ -21,9 +21,14 @@ const displayCategoryData = (item) => {
 
     });
 
+
 }
 
 const singleData = async id => {
+
+    spineer(true)
+
+
     const url = `https://openapi.programming-hero.com/api/news/category/${id}`
     const res = await fetch(url)
     const data = await res.json()
@@ -34,6 +39,14 @@ const singleData = async id => {
 }
 
 const singleDataDisplay = (data) => {
+
+    const totalData = document.getElementById('total-data')
+    totalData.innerHTML = ''
+    const h4 = document.createElement('h4')
+     h4.innerHTML= `Total Data Found: ${data.length
+     }` 
+     totalData.appendChild(h4)
+
     const cardContainer = document.getElementById('card-container')
     cardContainer.innerHTML = ''
     console.log(data)
@@ -45,10 +58,10 @@ const singleDataDisplay = (data) => {
         newDiv.classList.add('border')
         newDiv.classList.add('border-success')
         newDiv.innerHTML = `
-        <div class="col-4 border-success border d-flex align-items-center">
+        <div class="col-md-4 col-sm-12 border-success border d-flex align-items-center">
         <img style = "width:100%" src="${item.image_url}"/>
         </div>
-        <div class="col-8 p-4 ">
+        <div class="col-md-8 col-sm-12 p-4 ">
         <h5>${item.title}</h5>
         <p>${item.details.slice(0, 300)}</p>
 
@@ -80,6 +93,9 @@ const singleDataDisplay = (data) => {
 
     })
 
+    spineer(false)
+
+
 }
 
 
@@ -102,4 +118,16 @@ const displayModal = (news) =>{
     <h5>Rating: ${news.rating.number}</h5>
     <h5>Badge: ${news.rating.badge}</h5>
     `
+}
+
+
+
+const spineer = (loading) =>{
+    const spin = document.getElementById('loader')
+    if(loading){
+        spin.classList.remove('d-none')
+    }
+    else {
+        spin.classList.add('d-none')
+    }
 }
