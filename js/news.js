@@ -13,7 +13,6 @@ const displayCategoryData = (item) => {
     item.forEach(category => {
         const newDiv = document.createElement('div')
         newDiv.classList.add('d-inline')
-        // console.log(category)
         newDiv.innerHTML = `
         <h6 class="d-inline mx-2 cursor" onClick="singleData('${category.category_id}')">${category.category_name}</h6>
     `
@@ -34,7 +33,6 @@ const singleData = async id => {
     const data = await res.json()
         .catch(error => error.console.log("Error"))
     singleDataDisplay(data.data)
-    // console.log(data.data)
 
 }
 
@@ -89,7 +87,6 @@ const singleDataDisplay = (data) => {
 
         `
         cardContainer.appendChild(newDiv)
-        // console.log(item)
 
     })
 
